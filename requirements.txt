@@ -6,3 +6,4 @@ tensorflow
 tensorflow-estimator
 tensorflow-intel
 tensorflow-io-gcs-filesystem
+Pillow
