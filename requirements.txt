@@ -6,5 +6,3 @@ tensorflow
 tensorflow-estimator
 tensorflow-intel
 tensorflow-io-gcs-filesystem
-torch
-io
