@@ -7,6 +7,7 @@ from PIL import Image
 import requests
 import io
 
+
 app = Flask(__name__)
 
 def resize_crop(image):
@@ -73,4 +74,4 @@ def get_image():
         return "lmao"
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run()
