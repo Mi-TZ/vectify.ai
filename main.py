@@ -23,6 +23,9 @@ def resize_crop(image):
     image = image[:h, :w, :]
     return image
 
+def resize_image(image, target_size=(1024, 1024)):
+    return cv2.resize(image, target_size, interpolation=cv2.INTER_AREA)
+
 def download_image(url):
     response = requests.get(url, stream=True).raw
     image = Image.open(response)
@@ -30,6 +33,7 @@ def download_image(url):
     image = np.array(image)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     return image
+
 
 def preprocess_image(image):
     image = resize_crop(image)
@@ -63,7 +67,11 @@ def get_image():
         image = image.convert("RGB")
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        preprocessed_image = preprocess_image(image)
+
+        resized_image = resize_image(image)
+
+
+        preprocessed_image = preprocess_image(resized_image)
 
         # Run inference.
         result = concrete_func(preprocessed_image)["final_output:0"]
