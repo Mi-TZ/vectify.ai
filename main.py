@@ -46,7 +46,7 @@ concrete_func = loaded_model.signatures["serving_default"]
 def hello():
     return "Hello"
 
-@app.route("/")
+@app.route("/get-image")
 def get_image():
     try:
         # Get image URL from the request
