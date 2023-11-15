@@ -10,3 +10,4 @@ Pillow
 Gunicorn
 gevent
 uvicorn[standard]
+fastapi[all]
