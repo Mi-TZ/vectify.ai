@@ -1,5 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import StreamingResponse
+from flask import Flask, send_file
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -8,7 +7,8 @@ from PIL import Image
 import requests
 import io
 
-app = FastAPI()
+
+app = Flask(__name__)
 
 def resize_crop(image):
     h, w, c = np.shape(image)
@@ -42,12 +42,12 @@ model_path = snapshot_download("sayakpaul/whitebox-cartoonizer")
 loaded_model = tf.saved_model.load(model_path)
 concrete_func = loaded_model.signatures["serving_default"]
 
-@app.get("/")
+@app.route("/")
 def hello():
     return "Hello"
 
-@app.get("/get_image")
-async def get_image():
+@app.route("/")
+def get_image():
     try:
         # Get image URL from the request
         image_url = "https://github.com/Mi-TZ/ahaha/blob/main/gdgdg.jpg?raw=true"
@@ -70,9 +70,16 @@ async def get_image():
         output_image.save(img_byte_array, format="PNG")
         img_byte_array = img_byte_array.getvalue()
 
-        # Return the image as a FastAPI StreamingResponse
-        return StreamingResponse(io.BytesIO(img_byte_array), media_type="image/png")
+        # Return the image as a Flask response
+        return send_file(io.BytesIO(img_byte_array), mimetype="image/png")
 
     except Exception as e:
         print("Error:", e)
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+        return "lmao"
+
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 33507))
+    app.run(host='0.0.0.0', port=port)
+
+
+# // web: gunicorn main:app -t 100 --keep-alive 100
