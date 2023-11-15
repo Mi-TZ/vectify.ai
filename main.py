@@ -1,6 +1,5 @@
-from flask import Flask, send_file
+from flask import Flask, request, send_file
 import cv2
-import os
 import numpy as np
 import tensorflow as tf
 from huggingface_hub import snapshot_download
@@ -47,14 +46,22 @@ concrete_func = loaded_model.signatures["serving_default"]
 def hello():
     return "Hello"
 
-@app.route("/get-image")
+@app.route("/get-image", methods=["POST"])
 def get_image():
     try:
         # Get image URL from the request
-        image_url = "https://github.com/Mi-TZ/ahaha/blob/main/gdgdg.jpg?raw=true"
+        # image_url = "https://github.com/Mi-TZ/ahaha/blob/main/gdgdg.jpg?raw=true"
+
+        image_file = request.files.get("image")
+        if not image_file:
+            return "No image file provided."
         
         # Download and preprocess image.
-        image = download_image(image_url)
+        # image = download_image(image_url)
+        image = Image.open(image_file)
+        image = image.convert("RGB")
+        image = np.array(image)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         preprocessed_image = preprocess_image(image)
 
         # Run inference.
