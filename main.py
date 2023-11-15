@@ -42,11 +42,11 @@ model_path = snapshot_download("sayakpaul/whitebox-cartoonizer")
 loaded_model = tf.saved_model.load(model_path)
 concrete_func = loaded_model.signatures["serving_default"]
 
-@app.route("/")
-def hello():
-    return "Hello"
+# @app.route("/")
+# def hello():
+#     return "Hello"
 
-@app.route("/get_image")
+@app.route("/")
 def get_image():
     try:
         # Get image URL from the request
@@ -79,3 +79,6 @@ def get_image():
 
 if __name__ == "__main__":
     app.run()
+
+
+# // web: gunicorn main:app -t 100 --keep-alive 100
