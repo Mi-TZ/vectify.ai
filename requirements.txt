@@ -8,3 +8,4 @@ tensorflow-intel
 tensorflow-io-gcs-filesystem
 Pillow
 Gunicorn
+gevent
