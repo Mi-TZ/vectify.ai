@@ -9,3 +9,4 @@ tensorflow-io-gcs-filesystem
 Pillow
 Gunicorn
 gevent
+uvicorn[standard]
